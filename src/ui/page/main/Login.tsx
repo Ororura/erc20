@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
 import WithNavBar from "../../component/HOC/HOC";
 import { Button, Form } from "react-bootstrap";
 import { UserContext } from "../../../core/Context";
 import { ethBal, signIn } from "../../../services/Contract";
 import { useHistory } from "react-router-dom";
+import { useContext, useState } from "react";
 
 interface IDataInput {
   login: string;
@@ -13,32 +13,6 @@ interface IDataInput {
 const Login = () => {
   const [data, setData] = useState<IDataInput>({ login: "", password: "" });
   const { userData, setUserData } = useContext(UserContext);
-
-  const handleSignIn = async () => {
-    try {
-      const signInResult = await signIn(data.login, data.password);
-
-      setUserData({
-        ...userData,
-        login: signInResult[0],
-        wallet: signInResult[1],
-        seedTokens: signInResult[2],
-        privateTokens: signInResult[3],
-        publicTokens: signInResult[4],
-        whiteList: signInResult[5],
-        role: signInResult[6],
-      });
-
-      const ethBalance = await ethBal(userData.wallet);
-
-      setUserData({
-        ...userData,
-        eth: ethBalance,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const history = useHistory();
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -78,9 +52,25 @@ const Login = () => {
               onClick={async (e) => {
                 e.preventDefault();
                 try {
-                  await handleSignIn().then(() => {
-                    history.push("/");
+                  await signIn(data.login, data.password).then(async (e) => {
+                    await ethBal(
+                      "0xcB3a5467756F86692FB3336c58EC41c16B9BEBdF"
+                    ).then((el) => {
+                      setUserData({
+                        ...userData,
+                        login: e[0],
+                        wallet: e[1],
+                        seedTokens: e[2],
+                        privateTokens: e[3],
+                        publicTokens: e[4],
+                        whiteList: e[5],
+                        role: e[6],
+                        eth: el,
+                      });
+                    });
                   });
+
+                  history.push("/");
                 } catch (error) {
                   console.log(error);
                 }
