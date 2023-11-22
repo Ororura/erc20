@@ -1,12 +1,12 @@
 import abi from "./ABI.json";
 import Web3 from "web3";
 
-const contractAddress = "0x05a338A14998bAAF96BA80332A39E2262684ad5C";
+const contractAddress = "0xb37c75BDaE0B5fBE3c75A9E3428c33EDBf9C4990";
 const web3 = new Web3("http://localhost:8545");
 const contract = new web3.eth.Contract(abi as any, contractAddress);
 
-async function signIn(login: string, password: string, wallet: string) {
-     return await contract.methods.signIn(login, password).call({from: wallet});}
+async function signIn(login: string, password: string) {
+     return await contract.methods.signIn(login, password).call();}
 
 async function buyToken(amount: number, ether: string, wallet: string) {
     const transObj = {
@@ -24,6 +24,13 @@ async function buyToken(amount: number, ether: string, wallet: string) {
 async function getLifeTime() {
     return await contract.methods.getLifeTime().call();
 }
+
+function getEthBalance(wallet: string) {
+    const eth = web3.eth.getBalance(wallet);    
+    return eth;
+}
+
+const ethBal = async (wallet: string) => await web3.eth.getBalance(wallet);
 
 async function getWhitelist(wallet: string) {
     return await contract.methods.getWhitelist().call({from: wallet});    
@@ -57,4 +64,4 @@ async function sendRequestToWhitelist(wallet: string) {
     await contract.methods.transferToken().send({from: wallet})
 }
 
-export { signIn, buyToken, getLifeTime, getWhitelist, getUserData, takeWhitelistRequest, getUserPrivateTokens, getUserPublicTokens, giveReward, transferToken, sendRequestToWhitelist };
+export { signIn, buyToken, getLifeTime, getWhitelist, getUserData, takeWhitelistRequest, getUserPrivateTokens, getUserPublicTokens, giveReward, transferToken, sendRequestToWhitelist, ethBal };

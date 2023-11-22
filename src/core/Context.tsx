@@ -12,6 +12,7 @@ interface IUserData {
   publicTokens: string;
   whiteList: string;
   role: string;
+  eth: string;
 }
 
 interface IValues {
@@ -30,6 +31,7 @@ export const UserProvider: FC<IProps> = ({ children }) => {
     publicTokens: "",
     whiteList: "",
     role: "",
+    eth: "",
   });
   const values = { userData, setUserData };
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

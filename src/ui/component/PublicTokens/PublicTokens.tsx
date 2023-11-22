@@ -9,7 +9,7 @@ const PublicTokens = () => {
   const [publicBal, setPublicBal] = useState("");
   return (
     <div>
-      <Form.Label>Узнать публичные токены пользователя</Form.Label>
+        <Form.Label>Узнать публичные токены пользователя</Form.Label>
       <Form>
         <Form.Group
           className="mb-3"
