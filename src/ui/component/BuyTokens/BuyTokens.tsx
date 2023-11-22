@@ -10,7 +10,11 @@ const BuyTokens = () => {
   return (
     <div>
       <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "230px" }}>
+        <Form.Group
+          className="mb-3"
+          controlId="formBasicEmail"
+          style={{ width: "230px" }}
+        >
           <Form.Label>Купить токены</Form.Label>
           <Form.Control
             onChange={(e) => {

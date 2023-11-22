@@ -1,17 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { getUserData } from "../../../services/Contract";
+import { getUserPublicTokens } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
-const GetUserbal = () => {
+const PublicTokens = () => {
   const [wallet, setWallet] = useState<string>("");
   const { userData } = useContext(UserContext);
-  const [user, setUserData] = useState([]);
+  const [publicBal, setPublicBal] = useState("");
   return (
     <div>
-      Узнать токены пользователя
+      <Form.Label>Узнать публичные токены пользователя</Form.Label>
       <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "230px" }}>
+        <Form.Group
+          className="mb-3"
+          controlId="formBasicEmail"
+          style={{ width: "230px" }}
+        >
           <Form.Label>Введите адрес пользователя</Form.Label>
           <Form.Control
             onChange={(e) => {
@@ -23,9 +27,8 @@ const GetUserbal = () => {
           onClick={async (e) => {
             e.preventDefault();
             try {
-              getUserData(wallet, userData.wallet).then((e) => {
-                setUserData(e);
-                console.log(user);
+              getUserPublicTokens(wallet, userData.wallet).then((e) => {
+                setPublicBal(e);
               });
             } catch (error) {
               console.log(error);
@@ -37,14 +40,11 @@ const GetUserbal = () => {
       </Form>
       <Card style={{ width: "18rem" }}>
         <Card.Body>
-          <Card.Title>Данные:</Card.Title>
-          <Card.Text>Подготовительный баланс: {user[2]}</Card.Text>
-          <Card.Text> Приватный баланс: {user[3]} </Card.Text>
-          <Card.Text>Публичный баланс: {user[4]} </Card.Text>
+          <Card.Text>Публичный баланс: {publicBal} </Card.Text>
         </Card.Body>
       </Card>
     </div>
   );
 };
 
-export default GetUserbal;
+export default PublicTokens;

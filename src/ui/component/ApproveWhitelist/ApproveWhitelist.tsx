@@ -34,6 +34,7 @@ const ApproveWhitelist = () => {
           variant="primary"
           type="submit"
           onClick={(e) => {
+            e.preventDefault();
             takeWhitelistRequest(id, status, userData.wallet);
           }}
         >

@@ -29,8 +29,10 @@ const Whitelist = () => {
         Получить вайтлист
       </Button>
       <ListGroup>
-        {data.map((e) => (
-          <ListGroup.Item style={{ width: "420px" }}>{e.wallet}</ListGroup.Item>
+        {data.map((e, idx) => (
+          <ListGroup.Item key={idx} style={{ width: "420px" }}>
+            {e.wallet}
+          </ListGroup.Item>
         ))}
       </ListGroup>
     </div>
