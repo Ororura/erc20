@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Card } from "react-bootstrap";
 import { UserContext } from "../../../core/Context";
-import {  } from "../../../services/Contract";
 
 const UserInfo = () => {
   const { userData } = useContext(UserContext);
@@ -23,8 +22,7 @@ const UserInfo = () => {
   }
 
   return (
-    <div className="wrapper">
-      <Card style={{ width: "18rem" }}>
+      <Card style={{ width: "18rem", backgroundColor: "#844dbf", margin:"10px"}}>
         <Card.Body>
           <Card.Title>Ваши данные</Card.Title>
           <Card.Text>Адрес: {userData.wallet}</Card.Text>
@@ -35,7 +33,6 @@ const UserInfo = () => {
           <Card.Text>Публичный баланс: {userData.publicTokens}</Card.Text>
         </Card.Body>
       </Card>
-    </div>
   );
 };
 

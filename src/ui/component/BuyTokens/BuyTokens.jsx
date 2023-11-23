@@ -4,12 +4,11 @@ import { buyToken } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
 const BuyTokens = () => {
-  const [amount, setAmount] = useState<number>(0);
-  const [ether, setEther] = useState<string>("");
+  const [amount, setAmount] = useState(0);
+  const [ether, setEther] = useState("");
   const { userData } = useContext(UserContext);
   return (
-    <div>
-      <Form>
+      <Form style={{ borderRadius:"10px", padding:"10px", width: "18rem", backgroundColor: "#844dbf", margin:"10px"}}>
         <Form.Group
           className="mb-3"
           controlId="formBasicEmail"
@@ -42,7 +41,6 @@ const BuyTokens = () => {
           Купить
         </Button>
       </Form>
-    </div>
   );
 };
 

@@ -1,17 +1,16 @@
 import React, { useContext, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { transferToken } from "../../../services/Contract";
+import { getUserPrivateTokens } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
-const SendTokens = () => {
-  const [wallet, setWallet] = useState<string>("");
+const PrivateTokens = () => {
+  const [wallet, setWallet] = useState("");
   const { userData } = useContext(UserContext);
-  const [amount, setAmount] = useState<string>("");
-  const [type, setType] = useState<string>("");
+  const [publicBal, setPublicBal] = useState("");
   return (
-    <div>
+    <div style={{ width: "18rem", backgroundColor: "#844dbf", padding:"10px",borderRadius:"10px" , margin:"10px"}}>
+      <Form.Label>Узнать приватные токены пользователя</Form.Label>
       <Form>
-        <Form.Label>Отправить токены</Form.Label>
         <Form.Group
           className="mb-3"
           controlId="formBasicEmail"
@@ -23,34 +22,29 @@ const SendTokens = () => {
               setWallet(e.target.value);
             }}
           />
-          <Form.Label>Введите тип токенов</Form.Label>
-          <Form.Control
-            onChange={(e) => {
-              setType(e.target.value);
-            }}
-          />
-          <Form.Label>Введите кол-во токенов</Form.Label>
-          <Form.Control
-            onChange={(e) => {
-              setAmount(e.target.value);
-            }}
-          />
         </Form.Group>
         <Button
           onClick={async (e) => {
             e.preventDefault();
             try {
-              transferToken(wallet, amount, type, userData.wallet);
+              getUserPrivateTokens(wallet, userData.wallet).then((e) => {
+                setPublicBal(e);
+              });
             } catch (error) {
               console.log(error);
             }
           }}
         >
-          Отправить токены
+          Получить данные
         </Button>
       </Form>
+      <Card>
+        <Card.Body>
+          <Card.Text>Приватный баланс: {publicBal} </Card.Text>
+        </Card.Body>
+      </Card>
     </div>
   );
 };
 
-export default SendTokens;
+export default PrivateTokens;

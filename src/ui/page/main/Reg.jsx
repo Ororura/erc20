@@ -2,21 +2,15 @@ import { Button, Form } from "react-bootstrap";
 import WithNavBar from "../../component/HOC/HOC";
 import React, { useState } from "react";
 
-interface IDataInput {
-  login: string;
-  password: string;
-  rePassword: string;
-}
-
 const Reg = () => {
-  const [data, setData] = useState<IDataInput>({ login: "", password: "", rePassword: "" });
+  const [data, setData] = useState({ login: "", password: "", rePassword: "" });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
 
-  const checkPassword = (password: string, rePassword: string): boolean => {
+  const checkPassword = (password, rePassword) => {
     return password === rePassword;
   };
 

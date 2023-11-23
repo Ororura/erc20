@@ -4,14 +4,14 @@ import { getUserData } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
 const GetUserbal = () => {
-  const [wallet, setWallet] = useState<string>("");
+  const [wallet, setWallet] = useState("");
   const { userData } = useContext(UserContext);
   const [user, setUserData] = useState([]);
   return (
     <div>
       Узнать токены пользователя
-      <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "230px" }}>
+      <Form style={{ width: "18rem", backgroundColor: "#844dbf", margin:"10px", padding: "10px", borderRadius: "10px"}}>
+        <Form.Group  controlId="formBasicEmail" >
           <Form.Label>Введите адрес пользователя</Form.Label>
           <Form.Control
             onChange={(e) => {
@@ -35,7 +35,7 @@ const GetUserbal = () => {
           Получить данные
         </Button>
       </Form>
-      <Card style={{ width: "18rem" }}>
+      <Card style={{ width: "18rem", backgroundColor: "#844dbf", margin:"10px"}}>
         <Card.Body>
           <Card.Title>Данные:</Card.Title>
           <Card.Text>Подготовительный баланс: {user[2]}</Card.Text>

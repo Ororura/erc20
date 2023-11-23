@@ -5,19 +5,15 @@ import { ethBal, signIn } from "../../../services/Contract";
 import { useHistory } from "react-router-dom";
 import { useContext, useState } from "react";
 
-interface IDataInput {
-  login: string;
-  password: string;
-}
-
 const Login = () => {
-  const [data, setData] = useState<IDataInput>({ login: "", password: "" });
+  const [data, setData] = useState({ login: "", password: "" });
   const { userData, setUserData } = useContext(UserContext);
   const history = useHistory();
-  const handleChange = (e: any) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
+  
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -53,19 +49,17 @@ const Login = () => {
                 e.preventDefault();
                 try {
                   await signIn(data.login, data.password).then(async (e) => {
-                    await ethBal(
-                      "0xcB3a5467756F86692FB3336c58EC41c16B9BEBdF"
-                    ).then((el) => {
+                    await ethBal(e[1]).then((el) => {
                       setUserData({
                         ...userData,
                         login: e[0],
                         wallet: e[1],
-                        seedTokens: e[2],
-                        privateTokens: e[3],
-                        publicTokens: e[4],
-                        whiteList: e[5],
+                        seedTokens: e[2] / 10 ** 12,
+                        privateTokens: e[3] / 10 ** 12,
+                        publicTokens: e[4] / 10 ** 12,
+                        whiteList: e[5] / 10 ** 12,
                         role: e[6],
-                        eth: el,
+                        eth: el / 10 ** 18,
                       });
                     });
                   });

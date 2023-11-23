@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Main from "../page/main/Main";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Routes from "../../constants/Routes";
 import { UserProvider } from "../../core/Context";

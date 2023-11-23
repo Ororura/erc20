@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { getUserPrivateTokens } from "../../../services/Contract";
+import { getUserPublicTokens } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
-const PrivateTokens = () => {
-  const [wallet, setWallet] = useState<string>("");
+const PublicTokens = () => {
+  const [wallet, setWallet] = useState("");
   const { userData } = useContext(UserContext);
   const [publicBal, setPublicBal] = useState("");
   return (
-    <div>
-      <Form.Label>Узнать приватные токены пользователя</Form.Label>
+    <div style={{ width: "18rem", backgroundColor: "#844dbf", padding:"10px",borderRadius:"10px" , margin:"10px"}}>
+        <Form.Label>Узнать публичные токены пользователя</Form.Label>
       <Form>
         <Form.Group
           className="mb-3"
@@ -27,7 +27,7 @@ const PrivateTokens = () => {
           onClick={async (e) => {
             e.preventDefault();
             try {
-              getUserPrivateTokens(wallet, userData.wallet).then((e) => {
+              getUserPublicTokens(wallet, userData.wallet).then((e) => {
                 setPublicBal(e);
               });
             } catch (error) {
@@ -38,13 +38,13 @@ const PrivateTokens = () => {
           Получить данные
         </Button>
       </Form>
-      <Card style={{ width: "18rem" }}>
+      <Card>
         <Card.Body>
-          <Card.Text>Приватный баланс: {publicBal} </Card.Text>
+          <Card.Text>Публичный баланс: {publicBal} </Card.Text>
         </Card.Body>
       </Card>
     </div>
   );
 };
 
-export default PrivateTokens;
+export default PublicTokens;

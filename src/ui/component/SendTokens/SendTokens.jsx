@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
-import { giveReward } from "../../../services/Contract";
+import { Button, Form } from "react-bootstrap";
+import { transferToken } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
-const SendReward = () => {
-  const [wallet, setWallet] = useState<string>("");
+const SendTokens = () => {
+  const [wallet, setWallet] = useState("");
   const { userData } = useContext(UserContext);
   const [amount, setAmount] = useState("");
+  const [type, setType] = useState("");
   return (
-    <div>
-      <Form>
-        <Form.Label>Отправить награду</Form.Label>
+      <Form style={{ width: "18rem", backgroundColor: "#844dbf", padding:"10px",borderRadius:"10px" , margin:"10px"}}>
+        <Form.Label>Отправить токены</Form.Label>
         <Form.Group
           className="mb-3"
           controlId="formBasicEmail"
@@ -20,6 +20,12 @@ const SendReward = () => {
           <Form.Control
             onChange={(e) => {
               setWallet(e.target.value);
+            }}
+          />
+          <Form.Label>Введите тип токенов</Form.Label>
+          <Form.Control
+            onChange={(e) => {
+              setType(e.target.value);
             }}
           />
           <Form.Label>Введите кол-во токенов</Form.Label>
@@ -33,7 +39,7 @@ const SendReward = () => {
           onClick={async (e) => {
             e.preventDefault();
             try {
-              giveReward(wallet, amount, userData.wallet);
+              transferToken(wallet, amount, type, userData.wallet);
             } catch (error) {
               console.log(error);
             }
@@ -42,8 +48,7 @@ const SendReward = () => {
           Отправить токены
         </Button>
       </Form>
-    </div>
   );
 };
 
-export default SendReward;
+export default SendTokens;

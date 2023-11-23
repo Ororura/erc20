@@ -5,11 +5,11 @@ import { UserContext } from "../../../core/Context";
 
 const ApproveWhitelist = () => {
   const { userData } = useContext(UserContext);
-  const [status, setStatus] = useState<string>("");
-  const [id, setId] = useState<string>("");
+  const [status, setStatus] = useState("");
+  const [id, setId] = useState("");
   return (
     <div>
-      <Form style={{ width: "400px" }}>
+      <Form style={{ width: "18rem", borderRadius: "10px", backgroundColor: "#844dbf", margin:"10px", padding: "10px"}}>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Введите айди запроса</Form.Label>
           <Form.Control

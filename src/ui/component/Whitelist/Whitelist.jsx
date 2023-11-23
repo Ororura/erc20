@@ -3,17 +3,12 @@ import { Button, ListGroup } from "react-bootstrap";
 import { getWhitelist } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
-interface IWhiteList {
-  login: string;
-  wallet: string;
-  bool: boolean;
-}
 
 const Whitelist = () => {
-  const [data, setWhitelistData] = useState<IWhiteList[]>([]);
+  const [data, setWhitelistData] = useState([]);
   const { userData } = useContext(UserContext);
   return (
-    <div>
+    <div style={{margin: "10px"}}>
       <Button
         onClick={async (e) => {
           e.preventDefault();
@@ -28,7 +23,7 @@ const Whitelist = () => {
       >
         Получить вайтлист
       </Button>
-      <ListGroup>
+      <ListGroup style={{backgroundColor: "#844dbf"}}>
         {data.map((e, idx) => (
           <ListGroup.Item key={idx} style={{ width: "420px" }}>
             {e.wallet}
