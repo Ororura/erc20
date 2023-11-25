@@ -37,7 +37,7 @@ const GetUserbal = () => {
         </Form.Group>
         <Button
           onClick={async (e) => {
-            await handler(e).await();
+            await handler(e);
           }}
         >
           Получить данные
@@ -46,9 +46,9 @@ const GetUserbal = () => {
       <Card style={{ width: "18rem", backgroundColor: "#844dbf", margin: "10px" }}>
         <Card.Body>
           <Card.Title>Данные:</Card.Title>
-          <Card.Text>Подготовительный баланс: {user[2]}</Card.Text>
-          <Card.Text> Приватный баланс: {user[3]} </Card.Text>
-          <Card.Text>Публичный баланс: {user[4]} </Card.Text>
+          <Card.Text>Подготовительный баланс: {user[2] / 10 ** 12}</Card.Text>
+          <Card.Text> Приватный баланс: {user[3] / 10 ** 12} </Card.Text>
+          <Card.Text>Публичный баланс: {user[4] / 10 ** 12} </Card.Text>
         </Card.Body>
       </Card>
     </div>

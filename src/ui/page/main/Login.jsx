@@ -58,7 +58,7 @@ const Login = () => {
               variant="primary"
               type="submit"
               onClick={async (e) => {
-                await handler(e).then();
+                await handler(e);
               }}
             >
               Войти

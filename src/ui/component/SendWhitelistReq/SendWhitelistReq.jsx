@@ -16,7 +16,7 @@ const SendWhitelistReq = () => {
     <Button
       style={{ margin: "10px" }}
       onClick={async (e) => {
-        await handler(e).then();
+        await handler(e);
       }}
     >
       Отправить запрос на добавление в вайтлист

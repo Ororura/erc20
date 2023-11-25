@@ -15,21 +15,14 @@ const Reg = () => {
 
   const handler = async (e) => {
     e.preventDefault();
-    if (checkPassword(inputData.password, inputData.rePassword)) {
       try {
-        await Contract.signUp(inputData.login, inputData.login, inputData.wallet).then();
+        await Contract.signUp(inputData.login, inputData.login, inputData.wallet);
         history.push("/login");
       } catch (error) {
         console.log(error);
       }
-    } else {
-      alert("Пароли не совпадают!");
-    }
   };
 
-  const checkPassword = (password, rePassword) => {
-    return password === rePassword;
-  };
 
   return (
     <>
@@ -67,20 +60,12 @@ const Reg = () => {
                 type="password"
                 placeholder="Введите пароль"
               />
-              <Form.Control
-                name="rePassword"
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-                type="password"
-                placeholder="Введите повторно пароль"
-              />
             </Form.Group>
             <Button
               variant="primary"
               type="submit"
               onClick={async (e) => {
-                await handler().then();
+                await handler(e)
               }}
             >
               Войти

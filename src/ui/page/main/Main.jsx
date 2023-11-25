@@ -16,9 +16,10 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Card } from "react-bootstrap";
 
 const Main = () => {
-  const { userData, balance } = useContext(UserContext);
+  const { userData, balance, getBalance } = useContext(UserContext);
   const navigation = useHistory();
   useEffect(() => {
+    getBalance()
     if (userData.login === "") {
       navigation.push("/login");
     }
@@ -48,10 +49,10 @@ const Main = () => {
           <Card.Title>Ваши данные</Card.Title>
           <Card.Text>Адрес: {userData.wallet}</Card.Text>
           <Card.Text>Роль: {role}</Card.Text>
-          <Card.Text>Баланс эфира: {balance.eth}</Card.Text>
-          <Card.Text>Подготовительный баланс: {balance.seedTokens}</Card.Text>
-          <Card.Text>Приватный баланс: {balance.privateTokens}</Card.Text>
-          <Card.Text>Публичный баланс: {balance.publicTokens}</Card.Text>
+          <Card.Text>Баланс эфира: {balance.eth / 10 ** 18}</Card.Text>
+          <Card.Text>Подготовительный баланс: {balance.seedTokens / 10 ** 12}</Card.Text>
+          <Card.Text>Приватный баланс: {balance.privateTokens / 10 ** 12}</Card.Text>
+          <Card.Text>Публичный баланс: {balance.publicTokens / 10 ** 12}</Card.Text>
         </Card.Body>
       </Card>
       <SendWhitelistReq />

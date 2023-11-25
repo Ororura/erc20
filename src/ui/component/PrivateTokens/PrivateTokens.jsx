@@ -36,7 +36,7 @@ const PrivateTokens = () => {
         </Form.Group>
         <Button
           onClick={async (e) => {
-            handler(e).then();
+            await handler(e);
           }}
         >
           Получить данные

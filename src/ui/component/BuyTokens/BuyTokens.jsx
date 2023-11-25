@@ -14,7 +14,7 @@ const BuyTokens = () => {
 
   const handler = async (e) => {
     e.preventDefault();
-    await Contract.BuyTokens(inputData.token, inputData.eth, userData.wallet);
+    await Contract.buyToken(inputData.token, inputData.eth, userData.wallet);
   };
 
   return (
@@ -42,7 +42,7 @@ const BuyTokens = () => {
         variant="primary"
         type="submit"
         onClick={async (e) => {
-          await handler(e).then();
+          await handler(e);
         }}
       >
         Купить

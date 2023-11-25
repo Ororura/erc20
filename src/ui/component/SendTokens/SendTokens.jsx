@@ -14,7 +14,7 @@ const SendTokens = () => {
 
   const handler = async (e) => {
     e.preventDefault();
-    await Contract.transferToken(inputData.wallet, inputData.amount, inputData.type, userData.wallet).then();
+    await Contract.transferToken(inputData.wallet, inputData.token, inputData.type, userData.wallet);
   };
 
   return (
@@ -45,7 +45,7 @@ const SendTokens = () => {
       </Form.Group>
       <Button
         onClick={async (e) => {
-          await handler(e).then();
+          await handler(e);
         }}
       >
         Отправить токены

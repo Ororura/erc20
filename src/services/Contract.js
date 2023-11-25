@@ -16,7 +16,9 @@ class Contract {
 
   async buyToken(amount, ether, wallet) {
     try {
-      return await this.contract.methods.buyToken(amount).send({ from: wallet, to: this.contract, value: amount });
+      return await this.contract.methods
+        .buyToken(amount)
+        .send({ from: wallet, to: this.contract, value: amount });
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +42,9 @@ class Contract {
 
   async getUserData(user, wallet) {
     try {
-      return await this.contract.methods.getUserData(user).call({ from: wallet });
+      return await this.contract.methods
+        .getUserData(user)
+        .call({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +52,9 @@ class Contract {
 
   async takeWhitelistRequest(index, status, wallet) {
     try {
-      return await this.contract.methods.takeWhitelistRequest(index, status).send({ from: wallet });
+      return await this.contract.methods
+        .takeWhitelistRequest(index, status)
+        .send({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +62,9 @@ class Contract {
 
   async getUserPrivateTokens(address, wallet) {
     try {
-      return await this.contract.methods.getUserPrivateTokens(address).call({ from: wallet });
+      return await this.contract.methods
+        .getUserPrivateTokens(address)
+        .call({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +72,9 @@ class Contract {
 
   async getUserPublicTokens(address, wallet) {
     try {
-      return await this.contract.methods.getUserPublicTokens(address).call({ from: wallet });
+      return await this.contract.methods
+        .getUserPublicTokens(address)
+        .call({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +82,9 @@ class Contract {
 
   async giveReward(address, amount, wallet) {
     try {
-      return await this.contract.methods.getUserPublicTokens(address, amount).send({ from: wallet });
+      return await this.contract.methods
+        .giveReward(address, amount)
+        .send({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +92,9 @@ class Contract {
 
   async transferToken(receiver, amount, type, wallet) {
     try {
-      return await this.contract.methods.transferToken(receiver, amount, type).send({ from: wallet });
+      return await this.contract.methods
+        .transferToken(receiver, amount, type)
+        .send({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +102,9 @@ class Contract {
 
   async sendRequestToWhitelist(wallet) {
     try {
-      return await this.contract.methods.sendRequestToWhitelist().send({ from: wallet });
+      return await this.contract.methods
+        .sendRequestToWhitelist()
+        .send({ from: wallet });
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +113,9 @@ class Contract {
   async signUp(login, password, wallet) {
     try {
       if (this.web3.utils.isAddress(wallet)) {
-        return this.contract.methods.signUp(login, password).send({ from: wallet });
+        return this.contract.methods
+          .signUp(login, password)
+          .send({ from: wallet });
       }
     } catch (error) {
       console.log(alert("Неверно введенные данные!"));

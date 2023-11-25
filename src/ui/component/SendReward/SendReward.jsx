@@ -39,7 +39,7 @@ const SendReward = () => {
       </Form.Group>
       <Button
         onClick={async (e) => {
-          handler(e).then();
+          await handler(e);
         }}
       >
         Отправить токены

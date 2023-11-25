@@ -13,7 +13,6 @@ const Whitelist = () => {
     try {
       await Contract.getWhitelist(userData.wallet).then((e) => {
         setWhitelistData(e);
-        console.log(whiteListData);
       });
     } catch (error) {
       console.log(error);

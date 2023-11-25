@@ -4,7 +4,6 @@ import Contract from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
 
 const PublicTokens = () => {
-  const [wallet, setWallet] = useState();
   const { userData } = useContext(UserContext);
   const [publicBal, setPublicBal] = useState();
   const [inputData, setInputData] = useState();
@@ -35,8 +34,8 @@ const PublicTokens = () => {
           />
         </Form.Group>
         <Button
-          onClick={(e) => {
-            handler(e);
+          onClick={async (e) => {
+            await handler(e);
           }}
         >
           Получить данные
