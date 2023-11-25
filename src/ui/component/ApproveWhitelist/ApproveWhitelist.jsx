@@ -1,28 +1,42 @@
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { takeWhitelistRequest } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
+import Contract from "../../../services/Contract";
 
 const ApproveWhitelist = () => {
   const { userData } = useContext(UserContext);
-  const [status, setStatus] = useState("");
-  const [id, setId] = useState("");
+  const [inputData, setInputData] = useState();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputData({ ...inputData, [name]: value });
+  };
+
+  const handler = async (e) => {
+    e.preventDefault();
+    await Contract.takeWhitelistRequest(inputData.id, inputData.status, userData.wallet);
+  };
+
   return (
     <div>
-      <Form style={{ width: "18rem", borderRadius: "10px", backgroundColor: "#844dbf", margin:"10px", padding: "10px"}}>
+      <Form
+        style={{ width: "18rem", borderRadius: "10px", backgroundColor: "#844dbf", margin: "10px", padding: "10px" }}
+      >
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Введите айди запроса</Form.Label>
           <Form.Control
+            name="id"
             onChange={(e) => {
-              setId(e.target.value);
+              handleChange(e);
             }}
             type="text"
             placeholder="Введите айди"
           />
         </Form.Group>
         <Form.Select
+          name="status"
           onChange={(e) => {
-            setStatus(e.target.value);
+            handleChange(e);
           }}
           aria-label="Default select example"
         >
@@ -33,9 +47,8 @@ const ApproveWhitelist = () => {
         <Button
           variant="primary"
           type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            takeWhitelistRequest(id, status, userData.wallet);
+          onClick={async (e) => {
+            await handler(e).then();
           }}
         >
           Отправить

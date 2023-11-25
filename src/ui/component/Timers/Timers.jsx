@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { getLifeTime } from "../../../services/Contract";
+import Contract from "../../../services/Contract";
 
 const Timers = () => {
   const [timer, setTimer] = useState(0);
   useEffect(() => {
     (async () => {
-      await getLifeTime().then((e) => {
+      await Contract.getLifeTime().then((e) => {
         setTimer(Number(e));
       });
     })();

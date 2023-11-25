@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import UserInfo from "../../component/UserInfo/UserInfo";
-import WithNavBar from "../../component/HOC/HOC";
+import React, { useContext, useEffect } from "react";
+import WithNavBar from "../../component/HOC/Header";
 import "bootstrap/dist/css/bootstrap.css";
 import BuyTokens from "../../component/BuyTokens/BuyTokens";
 import Timers from "../../component/Timers/Timers";
@@ -13,23 +12,57 @@ import SendReward from "../../component/SendReward/SendReward";
 import SendTokens from "../../component/SendTokens/SendTokens";
 import SendWhitelistReq from "../../component/SendWhitelistReq/SendWhitelistReq";
 import { UserContext } from "../../../core/Context";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Card } from "react-bootstrap";
 
 const Main = () => {
-  const {userData} = useContext(UserContext);
+  const { userData, balance } = useContext(UserContext);
+  const navigation = useHistory();
+  useEffect(() => {
+    if (userData.login === "") {
+      navigation.push("/login");
+    }
+  }, []);
+
+  let role;
+  switch (userData.role) {
+    case "0":
+      role = "Пользователь";
+      break;
+    case "2":
+      role = "Приватный провайдер";
+      break;
+    case "1":
+      role = "Публичный провайдер";
+      break;
+    case "3":
+      role = "Владелец";
+      break;
+  }
+
   return (
     <div className="d-flex flex-column align-items-center">
-        {userData.role  == "" ? <p style={{fontSize:"30px"}}>Авторизуйтесь!</p> : <></> }
-        {userData.role  == "" ? <></> : <Timers /> }
-        {userData.role  == "" ? <></> : <UserInfo/> }
-        {userData.role  == "" ? <></> : userData.whiteList == true ? <></> : <SendWhitelistReq/> }
-        {userData.role  == 1 ? <Whitelist/> : <></> }
-        {userData.role  == 1 ? <ApproveWhitelist/> : <></> }
-        {userData.role  == "" ? <></> : <BuyTokens/> }
-        {userData.role  == 3 ? <GetUserbal/> : <></> }
-        {userData.role  == 2 ? <PrivateTokens/> : <></> }
-        {userData.role  == 1 ? <PublicTokens/> : <></> }
-        {userData.role  == 2 ? <SendReward/> : <></> }
-        {userData.role  == "" ? <></> : <SendTokens/> }
+      <Timers />
+      <Card style={{ width: "18rem", backgroundColor: "#844dbf", margin: "10px" }}>
+        <Card.Body>
+          <Card.Title>Ваши данные</Card.Title>
+          <Card.Text>Адрес: {userData.wallet}</Card.Text>
+          <Card.Text>Роль: {role}</Card.Text>
+          <Card.Text>Баланс эфира: {balance.eth}</Card.Text>
+          <Card.Text>Подготовительный баланс: {balance.seedTokens}</Card.Text>
+          <Card.Text>Приватный баланс: {balance.privateTokens}</Card.Text>
+          <Card.Text>Публичный баланс: {balance.publicTokens}</Card.Text>
+        </Card.Body>
+      </Card>
+      <SendWhitelistReq />
+      <Whitelist />
+      <ApproveWhitelist />
+      <BuyTokens />
+      <GetUserbal />
+      <PrivateTokens />
+      <PublicTokens />
+      <SendReward />
+      <SendTokens />
     </div>
   );
 };

@@ -1,47 +1,50 @@
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { giveReward } from "../../../services/Contract";
 import { UserContext } from "../../../core/Context";
+import Contract from "../../../services/Contract";
 
 const SendReward = () => {
-  const [wallet, setWallet] = useState("");
   const { userData } = useContext(UserContext);
-  const [amount, setAmount] = useState("");
-  return (
-      <Form style={{ width: "18rem", backgroundColor: "#844dbf", padding:"10px",borderRadius:"10px" , margin:"10px"}}>
-        <Form.Label>Отправить награду</Form.Label>
-        <Form.Group
-          className="mb-3"
-          controlId="formBasicEmail"
-          style={{ width: "230px" }}
-        >
-          <Form.Label>Введите адрес пользователя</Form.Label>
-          <Form.Control
-            onChange={(e) => {
-              setWallet(e.target.value);
-            }}
-          />
-          <Form.Label>Введите кол-во токенов</Form.Label>
-          <Form.Control
-            onChange={(e) => {
-              setAmount(e.target.value);
-            }}
-          />
-        </Form.Group>
-        <Button
-          onClick={async (e) => {
-            e.preventDefault();
-            try {
-              giveReward(wallet, amount, userData.wallet);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-        >
-          Отправить токены
-        </Button>
-      </Form>
+  const [inputData, setInputData] = useState();
 
+  const handlerChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setInputData({ ...inputData, [name]: value });
+  };
+
+  const handler = async (e) => {
+    e.preventDefault();
+    await Contract.giveReward(inputData.wallet, inputData.token, userData.wallet);
+  };
+
+  return (
+    <Form style={{ width: "18rem", backgroundColor: "#844dbf", padding: "10px", borderRadius: "10px", margin: "10px" }}>
+      <Form.Label>Отправить награду</Form.Label>
+      <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "230px" }}>
+        <Form.Label>Введите адрес пользователя</Form.Label>
+        <Form.Control
+          name="wallet"
+          onChange={(e) => {
+            handlerChange(e);
+          }}
+        />
+        <Form.Label>Введите кол-во токенов</Form.Label>
+        <Form.Control
+          name="token"
+          onChange={(e) => {
+            handlerChange(e);
+          }}
+        />
+      </Form.Group>
+      <Button
+        onClick={async (e) => {
+          handler(e).then();
+        }}
+      >
+        Отправить токены
+      </Button>
+    </Form>
   );
 };
 

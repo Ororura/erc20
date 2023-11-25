@@ -1,13 +1,30 @@
 import { Button, Form } from "react-bootstrap";
-import WithNavBar from "../../component/HOC/HOC";
+import WithNavBar from "../../component/HOC/Header";
 import React, { useState } from "react";
+import Contract from "../../../services/Contract";
+import { useHistory } from "react-router-dom";
 
 const Reg = () => {
-  const [data, setData] = useState({ login: "", password: "", rePassword: "" });
+  const [inputData, setInputData] = useState();
+  const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData({ ...data, [name]: value });
+    setInputData({ ...inputData, [name]: value });
+  };
+
+  const handler = async (e) => {
+    e.preventDefault();
+    if (checkPassword(inputData.password, inputData.rePassword)) {
+      try {
+        await Contract.signUp(inputData.login, inputData.login, inputData.wallet).then();
+        history.push("/login");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("Пароли не совпадают!");
+    }
   };
 
   const checkPassword = (password, rePassword) => {
@@ -21,6 +38,15 @@ const Reg = () => {
           <p className="text-center font-weight-bold h3">Регистрация</p>
           <Form style={{ width: "400px", margin: "auto" }}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Кошелек</Form.Label>
+              <Form.Control
+                name="wallet"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                type="text"
+                placeholder="Введите ваш кошелек"
+              />
               <Form.Label>Логин</Form.Label>
               <Form.Control
                 name="login"
@@ -53,9 +79,8 @@ const Reg = () => {
             <Button
               variant="primary"
               type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                console.log(checkPassword(data.password, data.rePassword));
+              onClick={async (e) => {
+                await handler().then();
               }}
             >
               Войти

@@ -1,78 +1,116 @@
 import abi from "./ABI.json";
 import Web3 from "web3";
 
-const contractAddress = "0xdBBBC90778dC0AA9cff7D6cfADd44a0f6A5F3bb0";
-const web3 = new Web3("http://localhost:8545");
-const contract = new web3.eth.Contract(abi, contractAddress);
+class Contract {
+  contractAddress = "0xdBBBC90778dC0AA9cff7D6cfADd44a0f6A5F3bb0";
+  web3 = new Web3("http://localhost:8545");
+  contract = new this.web3.eth.Contract(abi, this.contractAddress);
 
-async function signIn(login, password) {
-  return await contract.methods.signIn(login, password).call();
-}
+  async signIn(login, password) {
+    try {
+      return await this.contract.methods.signIn(login, password).call();
+    } catch (error) {
+      alert("Данные введены неверно!");
+    }
+  }
 
-async function buyToken(amount, ether, wallet) {
-  const transObj = {
-    from: wallet,
-    to: contractAddress,
-    value: amount,
-  };
-  try {
-    await contract.methods.buyToken(amount).send(transObj);
-  } catch (error) {
-    console.log(error);
+  async buyToken(amount, ether, wallet) {
+    try {
+      return await this.contract.methods.buyToken(amount).send({ from: wallet, to: this.contract, value: amount });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getLifeTime() {
+    try {
+      return await this.contract.methods.getLifeTime().call();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getWhitelist(wallet) {
+    try {
+      return await this.contract.methods.getWhitelist().call({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getUserData(user, wallet) {
+    try {
+      return await this.contract.methods.getUserData(user).call({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async takeWhitelistRequest(index, status, wallet) {
+    try {
+      return await this.contract.methods.takeWhitelistRequest(index, status).send({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getUserPrivateTokens(address, wallet) {
+    try {
+      return await this.contract.methods.getUserPrivateTokens(address).call({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getUserPublicTokens(address, wallet) {
+    try {
+      return await this.contract.methods.getUserPublicTokens(address).call({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async giveReward(address, amount, wallet) {
+    try {
+      return await this.contract.methods.getUserPublicTokens(address, amount).send({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async transferToken(receiver, amount, type, wallet) {
+    try {
+      return await this.contract.methods.transferToken(receiver, amount, type).send({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async sendRequestToWhitelist(wallet) {
+    try {
+      return await this.contract.methods.sendRequestToWhitelist().send({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async signUp(login, password, wallet) {
+    try {
+      if (this.web3.utils.isAddress(wallet)) {
+        return this.contract.methods.signUp(login, password).send({ from: wallet });
+      }
+    } catch (error) {
+      console.log(alert("Неверно введенные данные!"));
+    }
+  }
+
+  async getBalance(wallet) {
+    try {
+      return this.contract.methods.getBalance().call({ from: wallet });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
-async function getLifeTime() {
-  return await contract.methods.getLifeTime().call();
-}
-
-async function ethBal(wallet) {
-  return await web3.eth.getBalance(wallet);
-}
-
-async function getWhitelist(wallet) {
-  return await contract.methods.getWhitelist().call({ from: wallet });
-}
-
-async function getUserData(user, wallet) {
-  return await contract.methods.getUserData(user).call({ from: wallet });
-}
-
-async function takeWhitelistRequest(index, status, wallet) {
-  await contract.methods.takeWhitelistRequest(index, status).send({ from: wallet });
-}
-
-async function getUserPrivateTokens(address, wallet) {
-  return await contract.methods.getUserPrivateTokens(address).call({ from: wallet });
-}
-
-async function getUserPublicTokens(address, wallet) {
-  return await contract.methods.getUserPublicTokens(address).call({ from: wallet });
-}
-
-async function giveReward(address, amount, wallet) {
-  await contract.methods.getUserPublicTokens(address, amount).send({ from: wallet });
-}
-
-async function transferToken(receiver, amount, type, wallet) {
-  await contract.methods.transferToken(receiver, amount, type).send({ from: wallet });
-}
-
-async function sendRequestToWhitelist(wallet) {
-  await contract.methods.transferToken().send({ from: wallet });
-}
-
-export {
-  signIn,
-  buyToken,
-  getLifeTime,
-  getWhitelist,
-  getUserData,
-  takeWhitelistRequest,
-  getUserPrivateTokens,
-  getUserPublicTokens,
-  giveReward,
-  transferToken,
-  sendRequestToWhitelist,
-  ethBal,
-};
+export default new Contract();
