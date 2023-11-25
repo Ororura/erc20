@@ -4,12 +4,34 @@ import Contract from "../../../services/Contract";
 
 const Timers = () => {
   const [timer, setTimer] = useState(0);
+  const [privateTimer, setPrivateTimer] = useState(900)
+
   useEffect(() => {
-    (async () => {
-      await Contract.getLifeTime().then((e) => {
-        setTimer(Number(e));
-      });
-    })();
+    const fetchData = async () => {
+      const e = await Contract.getLifeTime();
+      setTimer(Number(e));
+      setPrivateTimer(Number(e));
+      
+    };
+  
+    fetchData();
+
+    let secondInterval;
+
+    if (timer >= 600 & timer <= 1500) {
+       secondInterval = setInterval(() => {
+        setPrivateTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+  
+    const firstInterval = setInterval(() => {
+      setTimer((prevTimer) => prevTimer + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(firstInterval)
+      clearInterval(secondInterval)};
+  
   }, []);
 
   return (
@@ -17,11 +39,8 @@ const Timers = () => {
       <Card.Body>
         <Card.Title>Таймеры</Card.Title>
         <Card.Text>Время жизни: {timer}</Card.Text>
-        {timer > 300 && timer < 900 ? (
-          <Card.Text>Время приватной фазы: {timer}</Card.Text>
-        ) : (
-          <p>Приватная фаза закончилась или не началась</p>
-        )}
+
+          {timer < 900 ?  <Card.Text>Время приватной фазы: {privateTimer}</Card.Text> : <p>Приватная фаза закончилась</p>}
         {timer > 900 ? (
           <Card.Text>Время свободной продажи: {timer - 900}</Card.Text>
         ) : (
